@@ -3,6 +3,7 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 
+import {AuthProvider} from '@/components/auth/AuthProvider';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import {routing} from '@/i18n/routing';
@@ -45,11 +46,13 @@ export default async function LocaleLayout({
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'}>
       <body className="font-sans">
         <NextIntlClientProvider messages={messages}>
-          <div className="flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>
