@@ -3,6 +3,9 @@
 import {useMemo, useState} from 'react';
 
 type Locale = 'fr' | 'ar' | 'en';
+const MIN_MONTANT = 1;
+const MAX_MONTANT_INPUT = 10000;
+const MAX_MONTANT_SLIDER = 5000;
 
 // Taux de change mockés mais réalistes (1€ = X unités)
 const TAUX_CHANGE = {
@@ -30,6 +33,10 @@ const PAYS = [
   {code: 'LYD', label: 'Libye', flag: '🇱🇾', color: 'from-black to-green-600'},
   {code: 'MRU', label: 'Mauritanie', flag: '🇲🇷', color: 'from-green-700 to-yellow-400'}
 ] as const;
+
+function clampMontant(value: number, max: number) {
+  return Math.min(Math.max(value, MIN_MONTANT), max);
+}
 
 // Données des services de transfert avec frais dynamiques
 const SERVICES = [
@@ -148,7 +155,7 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
   const t = copy[locale] ?? copy.fr;
   const [montant, setMontant] = useState(250);
   const [devise, setDevise] = useState<Devise>('MAD');
-  const montantSlider = Math.min(Math.max(montant, 1), 5000);
+  const montantSlider = clampMontant(montant, MAX_MONTANT_SLIDER);
 
   // Calcul des résultats triés par montant reçu décroissant
   const resultats = useMemo(() => {
@@ -177,20 +184,20 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
             <span>{t.amount}</span>
             <input
               type="number"
-              min={1}
-              max={10000}
+              min={MIN_MONTANT}
+              max={MAX_MONTANT_INPUT}
               value={montant}
-              onChange={(e) => setMontant(Math.min(Math.max(Number(e.target.value) || 0, 1), 10000))}
+              onChange={(e) => setMontant(clampMontant(Number(e.target.value) || 0, MAX_MONTANT_INPUT))}
               onClick={(e) => (e.target as HTMLInputElement).select()}
               className="w-full cursor-text rounded-xl border-2 border-emerald-500 p-4 text-center text-3xl font-bold text-dark outline-none transition focus:ring-4 focus:ring-emerald-200"
               placeholder="100"
             />
             <input
               type="range"
-              min={1}
-              max={5000}
+              min={MIN_MONTANT}
+              max={MAX_MONTANT_SLIDER}
               value={montantSlider}
-              onChange={(e) => setMontant(Math.min(Math.max(Number(e.target.value) || 0, 1), 5000))}
+              onChange={(e) => setMontant(clampMontant(Number(e.target.value) || 0, MAX_MONTANT_SLIDER))}
               className="w-full accent-emerald-500"
             />
           </label>

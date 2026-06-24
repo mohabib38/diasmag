@@ -70,7 +70,7 @@ export default function LoginForm() {
           1. Supabase Dashboard → Authentication → Providers → Google → Enable
           2. Créer un projet Google Cloud Console → OAuth 2.0 Client ID
           3. Ajouter Client ID + Secret dans Supabase
-          4. Authorized redirect URI : https://veczmxcvglaeaelgkodi.supabase.co/auth/v1/callback */}
+          4. Authorized redirect URI : https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback */}
       <p className="text-center text-sm text-gray-500">💡 Connexion Google disponible prochainement</p>
 
       {/* Formulaire email + mot de passe */}
