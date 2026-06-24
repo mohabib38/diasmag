@@ -2,6 +2,7 @@ import {createServerClient} from '@supabase/ssr';
 import {cookies} from 'next/headers';
 import {NextRequest, NextResponse} from 'next/server';
 
+// Base interne uniquement utilisée pour parser un chemin relatif de façon sûre.
 const SAFE_BASE_URL = 'https://diasmag.local';
 
 function getSafeNextPath(next: string): string {

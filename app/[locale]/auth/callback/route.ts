@@ -2,6 +2,8 @@ import {NextResponse} from 'next/server';
 
 import {createSupabaseServerClient} from '@/lib/supabase-server';
 
+const SAFE_BASE_URL = 'https://diasmag.local';
+
 function getSafeNextPath(next: string): string {
   const trimmed = next.trim();
   if (!trimmed.startsWith('/')) {
@@ -9,8 +11,8 @@ function getSafeNextPath(next: string): string {
   }
 
   try {
-    const parsed = new URL(trimmed, 'https://diasmag.local');
-    if (parsed.origin !== 'https://diasmag.local') {
+    const parsed = new URL(trimmed, SAFE_BASE_URL);
+    if (parsed.origin !== SAFE_BASE_URL) {
       return '/fr';
     }
     return `${parsed.pathname}${parsed.search}${parsed.hash}`;

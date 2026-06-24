@@ -203,6 +203,7 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
               value={montant}
               onChange={(e) => setMontant(clampMontant(Number(e.target.value) || 0, MAX_MONTANT_INPUT))}
               onClick={(e) => (e.target as HTMLInputElement).select()}
+              onFocus={(e) => e.currentTarget.select()}
               className="w-full cursor-text rounded-xl border-2 border-emerald-500 p-4 text-center text-3xl font-bold text-dark outline-none transition focus:ring-4 focus:ring-emerald-200"
               placeholder="100"
             />
