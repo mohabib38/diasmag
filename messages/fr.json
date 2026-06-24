@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "envoyer": "Envoyer de l'argent",
+    "demarches": "Démarches",
+    "apprendre": "Apprendre",
+    "recettes": "Recettes",
+    "actualites": "Actualités",
+    "voyager": "Voyager",
+    "mariage": "Mariage",
+    "signin": "Se connecter",
+    "signup": "S'inscrire"
+  },
+  "hero": {
+    "title": "Votre portail tout-en-un",
+    "subtitle": "pour la diaspora maghrébine",
+    "description": "Envoyer de l'argent, accomplir vos démarches, apprendre votre langue maternelle, découvrir des recettes, suivre l'actualité, voyager et organiser votre mariage - tout en un seul endroit.",
+    "cta_start": "Commencer",
+    "cta_signup": "S'inscrire gratuitement"
+  },
+  "sections": {
+    "envoyer": { "title": "Envoyer de l'argent", "desc": "Comparez Western Union, Wise, Remitly et plus encore" },
+    "demarches": { "title": "Démarches administratives", "desc": "Guides pour visa, nationalité, héritage et plus" },
+    "apprendre": { "title": "Apprendre", "desc": "Cours de Darija, Amazigh et Arabe littéraire" },
+    "recettes": { "title": "Recettes", "desc": "La cuisine maghrébine à portée de main" },
+    "actualites": { "title": "Actualités", "desc": "Toute l'info du Maghreb et de la diaspora" },
+    "voyager": { "title": "Voyager", "desc": "Comparez les vols Maghreb ↔ Europe" },
+    "mariage": { "title": "Mariage", "desc": "Salles de fête, prestataires et plus" }
+  }
+}
