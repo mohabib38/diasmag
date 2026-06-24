@@ -9,7 +9,9 @@
     "voyager": "Voyager",
     "mariage": "Mariage",
     "signin": "Se connecter",
-    "signup": "S'inscrire"
+    "signup": "S'inscrire",
+    "profile": "Mon profil",
+    "signout": "Déconnexion"
   },
   "hero": {
     "title": "Votre portail tout-en-un",
