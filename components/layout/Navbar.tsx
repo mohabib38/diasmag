@@ -88,7 +88,7 @@ export default function Navbar() {
                     className="block px-4 py-2 text-sm text-dark hover:bg-slate-50"
                     onClick={() => setUserMenuOpen(false)}
                   >
-                    Mon profil
+                    {t('profile')}
                   </Link>
                   <button
                     type="button"
@@ -98,7 +98,7 @@ export default function Navbar() {
                     }}
                     className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-slate-50"
                   >
-                    Déconnexion
+                    {t('signout')}
                   </button>
                 </div>
               ) : null}
@@ -166,7 +166,7 @@ export default function Navbar() {
                     }}
                     className="diasmag-button-secondary w-full text-sm text-red-500"
                   >
-                    Déconnexion
+                    {t('signout')}
                   </button>
                 </div>
               ) : (

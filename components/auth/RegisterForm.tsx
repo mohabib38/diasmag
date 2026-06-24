@@ -2,7 +2,7 @@
 
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useRouter} from 'next/navigation';
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 
@@ -43,6 +43,16 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = createSupabaseBrowserClient();
+  // Référence pour nettoyer le timeout en cas de démontage du composant
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimerRef.current !== null) {
+        clearTimeout(redirectTimerRef.current);
+      }
+    };
+  }, []);
 
   const {
     register,
@@ -76,7 +86,7 @@ export default function RegisterForm() {
     setLoading(false);
 
     // Redirection vers la page d'accueil après 3 secondes
-    setTimeout(() => {
+    redirectTimerRef.current = setTimeout(() => {
       router.push('/');
       router.refresh();
     }, 3000);

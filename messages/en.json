@@ -9,7 +9,9 @@
     "voyager": "Travel",
     "mariage": "Wedding",
     "signin": "Sign in",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "profile": "My profile",
+    "signout": "Sign out"
   },
   "hero": {
     "title": "Your all-in-one portal",

@@ -167,7 +167,7 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
               type="number"
               min={1}
               value={montant}
-              onChange={(e) => setMontant(Math.max(0, Number(e.target.value) || 0))}
+              onChange={(e) => setMontant(Number(e.target.value) || 0)}
               className="w-full rounded-2xl border border-white/30 bg-white/20 px-4 py-3 text-white placeholder-white/60 outline-none ring-white transition focus:ring-2"
             />
           </label>
