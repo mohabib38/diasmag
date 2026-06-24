@@ -66,11 +66,14 @@ export default function RegisterForm() {
   const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
     setServerError(null);
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin;
+    const normalizedAppUrl = appUrl.replace(/\/$/, '');
 
     const {error} = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
+        emailRedirectTo: `${normalizedAppUrl}/api/auth/callback`,
         data: {full_name: data.fullName}
       }
     });
@@ -108,6 +111,13 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+      {/* Pour activer Google OAuth :
+          1. Supabase Dashboard → Authentication → Providers → Google → Enable
+          2. Créer un projet Google Cloud Console → OAuth 2.0 Client ID
+          3. Ajouter Client ID + Secret dans Supabase
+          4. Authorized redirect URI : https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback */}
+      <p className="text-center text-sm text-gray-500">💡 Connexion Google disponible prochainement</p>
+
       {serverError ? (
         <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-600">{serverError}</div>
       ) : null}
