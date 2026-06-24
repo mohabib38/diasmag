@@ -27,11 +27,11 @@ const PAYS_INFO = {
 } as const;
 
 const PAYS = [
-  {code: 'MAD', label: 'Maroc', flag: '🇲🇦', color: 'from-red-500 to-green-600'},
-  {code: 'DZD', label: 'Algérie', flag: '🇩🇿', color: 'from-green-600 to-white'},
-  {code: 'TND', label: 'Tunisie', flag: '🇹🇳', color: 'from-red-600 to-white'},
-  {code: 'LYD', label: 'Libye', flag: '🇱🇾', color: 'from-black to-green-600'},
-  {code: 'MRU', label: 'Mauritanie', flag: '🇲🇷', color: 'from-green-700 to-yellow-400'}
+  {code: 'MAD', label: 'Maroc', flag: '🇲🇦'},
+  {code: 'DZD', label: 'Algérie', flag: '🇩🇿'},
+  {code: 'TND', label: 'Tunisie', flag: '🇹🇳'},
+  {code: 'LYD', label: 'Libye', flag: '🇱🇾'},
+  {code: 'MRU', label: 'Mauritanie', flag: '🇲🇷'}
 ] as const;
 
 function clampMontant(value: number, max: number) {
@@ -200,6 +200,12 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
               onChange={(e) => setMontant(clampMontant(Number(e.target.value) || 0, MAX_MONTANT_SLIDER))}
               className="w-full accent-emerald-500"
             />
+            {montant > MAX_MONTANT_SLIDER ? (
+              <p className="text-center text-xs text-emerald-100">
+                Le slider va jusqu&apos;à {MAX_MONTANT_SLIDER}€, mais le calcul accepte jusqu&apos;à{' '}
+                {MAX_MONTANT_INPUT}€.
+              </p>
+            ) : null}
           </label>
 
           {/* Pays destinataire */}

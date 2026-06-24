@@ -8,7 +8,8 @@ export async function GET(request: Request) {
   const code = searchParams.get('code');
   const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? origin).replace(/\/$/, '');
   const next = searchParams.get('next') ?? '/fr';
-  const safeNext = next.startsWith('/') && !next.startsWith('//') ? next : '/fr';
+  const safeNext =
+    next.startsWith('/') && !next.startsWith('//') && !next.includes('\\') ? next : '/fr';
 
   if (code) {
     const supabase = await createSupabaseServerClient();
