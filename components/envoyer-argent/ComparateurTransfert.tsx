@@ -42,13 +42,7 @@ const PAYS_INFO = {
   }
 } as const;
 
-const PAYS = [
-  {code: 'MAD', label: 'Maroc', flag: '🇲🇦'},
-  {code: 'DZD', label: 'Algérie', flag: '🇩🇿'},
-  {code: 'TND', label: 'Tunisie', flag: '🇹🇳'},
-  {code: 'LYD', label: 'Libye', flag: '🇱🇾'},
-  {code: 'MRU', label: 'Mauritanie', flag: '🇲🇷'}
-] as const;
+const COUNTRY_CODES: Devise[] = ['MAD', 'DZD', 'TND', 'LYD', 'MRU'];
 
 function clampMontant(value: number, max: number) {
   return Math.min(Math.max(value, MIN_MONTANT), max);
@@ -229,19 +223,21 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
           <div className="space-y-2 text-sm font-medium">
             <span>{t.country}</span>
             <div className="flex flex-wrap justify-center gap-2">
-              {PAYS.map((pays) => (
+              {COUNTRY_CODES.map((code) => (
                 <button
-                  key={pays.code}
+                  key={code}
                   type="button"
-                  onClick={() => setDevise(pays.code)}
+                  onClick={() => setDevise(code)}
+                  aria-label={`${t.country}: ${paysInfo[code].nom}`}
+                  aria-pressed={devise === code}
                   className={`flex items-center gap-2 rounded-full border-2 px-4 py-2 font-medium transition-all ${
-                    devise === pays.code
+                    devise === code
                       ? 'scale-105 border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'
                       : 'border-gray-200 bg-white text-gray-600 hover:border-emerald-300'
                   }`}
                 >
-                  <span className="text-xl">{pays.flag}</span>
-                  <span>{pays.label}</span>
+                  <span className="text-xl">{paysInfo[code].flag}</span>
+                  <span>{paysInfo[code].nom}</span>
                 </button>
               ))}
             </div>

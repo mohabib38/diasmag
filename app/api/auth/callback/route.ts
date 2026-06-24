@@ -2,11 +2,28 @@ import {createServerClient} from '@supabase/ssr';
 import {cookies} from 'next/headers';
 import {NextRequest, NextResponse} from 'next/server';
 
+function getSafeNextPath(next: string): string {
+  const trimmed = next.trim();
+  if (!trimmed.startsWith('/')) {
+    return '/fr';
+  }
+
+  try {
+    const parsed = new URL(trimmed, 'https://diasmag.local');
+    if (parsed.origin !== 'https://diasmag.local') {
+      return '/fr';
+    }
+    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return '/fr';
+  }
+}
+
 export async function GET(request: NextRequest) {
   const {searchParams, origin} = new URL(request.url);
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/fr';
-  const safeNext = next.startsWith('/') && !next.startsWith('//') && !next.includes('\\') ? next : '/fr';
+  const safeNext = getSafeNextPath(next);
 
   if (code) {
     const cookieStore = await cookies();
