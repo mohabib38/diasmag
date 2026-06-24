@@ -1,7 +1,7 @@
 'use client';
 
 import type {Session, User} from '@supabase/supabase-js';
-import {createContext, useContext, useEffect, useState} from 'react';
+import {createContext, useContext, useEffect, useMemo, useState} from 'react';
 
 import {createSupabaseBrowserClient} from '@/lib/supabase-browser';
 
@@ -25,7 +25,8 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const supabase = createSupabaseBrowserClient();
+  // Mémoïse le client Supabase pour éviter de le recréer à chaque rendu
+  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
 
   useEffect(() => {
     // Récupère la session courante au montage
@@ -52,7 +53,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [supabase]);
 
   const signOut = async () => {
     await supabase.auth.signOut();
