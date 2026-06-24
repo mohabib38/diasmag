@@ -19,11 +19,27 @@ const TAUX_CHANGE = {
 type Devise = keyof typeof TAUX_CHANGE;
 
 const PAYS_INFO = {
-  MAD: {nom: 'Maroc', devise: 'MAD', flag: '🇲🇦'},
-  DZD: {nom: 'Algérie', devise: 'DZD', flag: '🇩🇿'},
-  TND: {nom: 'Tunisie', devise: 'TND', flag: '🇹🇳'},
-  LYD: {nom: 'Libye', devise: 'LYD', flag: '🇱🇾'},
-  MRU: {nom: 'Mauritanie', devise: 'MRU', flag: '🇲🇷'}
+  fr: {
+    MAD: {nom: 'Maroc', devise: 'MAD', flag: '🇲🇦'},
+    DZD: {nom: 'Algérie', devise: 'DZD', flag: '🇩🇿'},
+    TND: {nom: 'Tunisie', devise: 'TND', flag: '🇹🇳'},
+    LYD: {nom: 'Libye', devise: 'LYD', flag: '🇱🇾'},
+    MRU: {nom: 'Mauritanie', devise: 'MRU', flag: '🇲🇷'}
+  },
+  ar: {
+    MAD: {nom: 'المغرب', devise: 'MAD', flag: '🇲🇦'},
+    DZD: {nom: 'الجزائر', devise: 'DZD', flag: '🇩🇿'},
+    TND: {nom: 'تونس', devise: 'TND', flag: '🇹🇳'},
+    LYD: {nom: 'ليبيا', devise: 'LYD', flag: '🇱🇾'},
+    MRU: {nom: 'موريتانيا', devise: 'MRU', flag: '🇲🇷'}
+  },
+  en: {
+    MAD: {nom: 'Morocco', devise: 'MAD', flag: '🇲🇦'},
+    DZD: {nom: 'Algeria', devise: 'DZD', flag: '🇩🇿'},
+    TND: {nom: 'Tunisia', devise: 'TND', flag: '🇹🇳'},
+    LYD: {nom: 'Libya', devise: 'LYD', flag: '🇱🇾'},
+    MRU: {nom: 'Mauritania', devise: 'MRU', flag: '🇲🇷'}
+  }
 } as const;
 
 const PAYS = [
@@ -101,7 +117,8 @@ const copy = {
     bestDeal: '⭐ Meilleur deal',
     disclaimer: '* Les taux sont indicatifs et peuvent varier selon le moment et le mode de paiement.',
     summary: 'Meilleur deal',
-    provider: 'Service'
+    provider: 'Service',
+    sliderInfo: `Le slider va jusqu'à ${MAX_MONTANT_SLIDER}€, mais le calcul accepte jusqu'à ${MAX_MONTANT_INPUT}€.`
   },
   ar: {
     title: 'حاسبة التحويل',
@@ -116,7 +133,8 @@ const copy = {
     bestDeal: '⭐ أفضل صفقة',
     disclaimer: '* الأسعار استرشادية وقد تتغير حسب الوقت وطريقة الدفع.',
     summary: 'أفضل صفقة',
-    provider: 'الخدمة'
+    provider: 'الخدمة',
+    sliderInfo: `شريط التمرير يصل حتى ${MAX_MONTANT_SLIDER}€، لكن الحساب يقبل حتى ${MAX_MONTANT_INPUT}€.`
   },
   en: {
     title: 'Transfer calculator',
@@ -131,7 +149,8 @@ const copy = {
     bestDeal: '⭐ Best deal',
     disclaimer: '* Rates are indicative and may vary depending on the time and payment method.',
     summary: 'Best deal',
-    provider: 'Service'
+    provider: 'Service',
+    sliderInfo: `The slider goes up to €${MAX_MONTANT_SLIDER}, but the calculator accepts up to €${MAX_MONTANT_INPUT}.`
   }
 } as const;
 
@@ -153,6 +172,7 @@ function StarRating({note}: {note: number}) {
 
 export default function ComparateurTransfert({locale}: {locale: Locale}) {
   const t = copy[locale] ?? copy.fr;
+  const paysInfo = PAYS_INFO[locale] ?? PAYS_INFO.fr;
   const [montant, setMontant] = useState(250);
   const [devise, setDevise] = useState<Devise>('MAD');
   const montantSlider = clampMontant(montant, MAX_MONTANT_SLIDER);
@@ -201,10 +221,7 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
               className="w-full accent-emerald-500"
             />
             {montant > MAX_MONTANT_SLIDER ? (
-              <p className="text-center text-xs text-emerald-100">
-                Le slider va jusqu&apos;à {MAX_MONTANT_SLIDER}€, mais le calcul accepte jusqu&apos;à{' '}
-                {MAX_MONTANT_INPUT}€.
-              </p>
+              <p className="text-center text-xs text-emerald-100">{t.sliderInfo}</p>
             ) : null}
           </label>
 
@@ -229,7 +246,7 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
               ))}
             </div>
             <p className="text-center text-xs text-emerald-100">
-              {PAYS_INFO[devise].flag} {PAYS_INFO[devise].nom} ({PAYS_INFO[devise].devise})
+              {paysInfo[devise].flag} {paysInfo[devise].nom} ({paysInfo[devise].devise})
             </p>
           </div>
         </div>
