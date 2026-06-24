@@ -2,6 +2,8 @@ import {createServerClient} from '@supabase/ssr';
 import {cookies} from 'next/headers';
 import {NextRequest, NextResponse} from 'next/server';
 
+const SAFE_BASE_URL = 'https://diasmag.local';
+
 function getSafeNextPath(next: string): string {
   const trimmed = next.trim();
   if (!trimmed.startsWith('/')) {
@@ -9,8 +11,8 @@ function getSafeNextPath(next: string): string {
   }
 
   try {
-    const parsed = new URL(trimmed, 'https://diasmag.local');
-    if (parsed.origin !== 'https://diasmag.local') {
+    const parsed = new URL(trimmed, SAFE_BASE_URL);
+    if (parsed.origin !== SAFE_BASE_URL) {
       return '/fr';
     }
     return `${parsed.pathname}${parsed.search}${parsed.hash}`;
@@ -24,12 +26,14 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/fr';
   const safeNext = getSafeNextPath(next);
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (code) {
+  if (code && supabaseUrl && supabaseAnonKey) {
     const cookieStore = await cookies();
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      supabaseUrl,
+      supabaseAnonKey,
       {
         cookies: {
           getAll: () => cookieStore.getAll(),

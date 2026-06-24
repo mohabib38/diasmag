@@ -228,7 +228,7 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
                   key={code}
                   type="button"
                   onClick={() => setDevise(code)}
-                  aria-label={`${t.country}: ${paysInfo[code].nom}`}
+                  aria-label={`${t.country}: ${paysInfo[code].nom} (${paysInfo[code].devise})`}
                   aria-pressed={devise === code}
                   className={`flex items-center gap-2 rounded-full border-2 px-4 py-2 font-medium transition-all ${
                     devise === code
