@@ -64,45 +64,14 @@ export default function LoginForm() {
     router.refresh();
   };
 
-  // Connexion avec Google OAuth
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    setServerError(null);
-
-    // Utilise l'URL de l'application définie en variable d'environnement
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin;
-
-    const {error} = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${appUrl}/auth/callback`
-      }
-    });
-
-    if (error) {
-      setServerError(translateSupabaseError(error.message));
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="space-y-6">
-      {/* Bouton Google */}
-      <button
-        type="button"
-        onClick={handleGoogleLogin}
-        disabled={loading}
-        className="flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-dark shadow-sm transition hover:bg-slate-50 disabled:opacity-60"
-      >
-        <span className="text-lg">🌐</span>
-        Continuer avec Google
-      </button>
-
-      <div className="relative flex items-center">
-        <div className="flex-1 border-t border-slate-200" />
-        <span className="mx-4 text-xs text-slate-400">ou</span>
-        <div className="flex-1 border-t border-slate-200" />
-      </div>
+      {/* Pour activer Google OAuth :
+          1. Supabase Dashboard → Authentication → Providers → Google → Enable
+          2. Créer un projet Google Cloud Console → OAuth 2.0 Client ID
+          3. Ajouter Client ID + Secret dans Supabase
+          4. Authorized redirect URI : https://veczmxcvglaeaelgkodi.supabase.co/auth/v1/callback */}
+      <p className="text-center text-sm text-gray-500">💡 Connexion Google disponible prochainement</p>
 
       {/* Formulaire email + mot de passe */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>

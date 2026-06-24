@@ -8,10 +8,28 @@ type Locale = 'fr' | 'ar' | 'en';
 const TAUX_CHANGE = {
   MAD: 10.85, // 1€ = 10.85 MAD
   DZD: 145.2, // 1€ = 145.20 DZD
-  TND: 3.38   // 1€ = 3.38 TND
+  TND: 3.38, // 1€ = 3.38 TND
+  LYD: 4.95, // 1€ = 4.95 LYD
+  MRU: 40.2 // 1€ = 40.20 MRU
 } as const;
 
 type Devise = keyof typeof TAUX_CHANGE;
+
+const PAYS_INFO = {
+  MAD: {nom: 'Maroc', devise: 'MAD', flag: '🇲🇦'},
+  DZD: {nom: 'Algérie', devise: 'DZD', flag: '🇩🇿'},
+  TND: {nom: 'Tunisie', devise: 'TND', flag: '🇹🇳'},
+  LYD: {nom: 'Libye', devise: 'LYD', flag: '🇱🇾'},
+  MRU: {nom: 'Mauritanie', devise: 'MRU', flag: '🇲🇷'}
+} as const;
+
+const PAYS = [
+  {code: 'MAD', label: 'Maroc', flag: '🇲🇦', color: 'from-red-500 to-green-600'},
+  {code: 'DZD', label: 'Algérie', flag: '🇩🇿', color: 'from-green-600 to-white'},
+  {code: 'TND', label: 'Tunisie', flag: '🇹🇳', color: 'from-red-600 to-white'},
+  {code: 'LYD', label: 'Libye', flag: '🇱🇾', color: 'from-black to-green-600'},
+  {code: 'MRU', label: 'Mauritanie', flag: '🇲🇷', color: 'from-green-700 to-yellow-400'}
+] as const;
 
 // Données des services de transfert avec frais dynamiques
 const SERVICES = [
@@ -110,12 +128,6 @@ const copy = {
   }
 } as const;
 
-const destinationLabels = {
-  fr: {MAD: '🇲🇦 Maroc (MAD)', DZD: '🇩🇿 Algérie (DZD)', TND: '🇹🇳 Tunisie (TND)'},
-  ar: {MAD: '🇲🇦 المغرب (MAD)', DZD: '🇩🇿 الجزائر (DZD)', TND: '🇹🇳 تونس (TND)'},
-  en: {MAD: '🇲🇦 Morocco (MAD)', DZD: '🇩🇿 Algeria (DZD)', TND: '🇹🇳 Tunisia (TND)'}
-} as const;
-
 // Affiche les étoiles de notation
 function StarRating({note}: {note: number}) {
   const full = Math.floor(note);
@@ -134,9 +146,9 @@ function StarRating({note}: {note: number}) {
 
 export default function ComparateurTransfert({locale}: {locale: Locale}) {
   const t = copy[locale] ?? copy.fr;
-  const labels = destinationLabels[locale] ?? destinationLabels.fr;
   const [montant, setMontant] = useState(250);
   const [devise, setDevise] = useState<Devise>('MAD');
+  const montantSlider = Math.min(Math.max(montant, 1), 5000);
 
   // Calcul des résultats triés par montant reçu décroissant
   const resultats = useMemo(() => {
@@ -166,27 +178,47 @@ export default function ComparateurTransfert({locale}: {locale: Locale}) {
             <input
               type="number"
               min={1}
+              max={10000}
               value={montant}
-              onChange={(e) => setMontant(Number(e.target.value) || 0)}
-              className="w-full rounded-2xl border border-white/30 bg-white/20 px-4 py-3 text-white placeholder-white/60 outline-none ring-white transition focus:ring-2"
+              onChange={(e) => setMontant(Math.min(Math.max(Number(e.target.value) || 0, 1), 10000))}
+              onClick={(e) => (e.target as HTMLInputElement).select()}
+              className="w-full cursor-text rounded-xl border-2 border-emerald-500 p-4 text-center text-3xl font-bold text-dark outline-none transition focus:ring-4 focus:ring-emerald-200"
+              placeholder="100"
+            />
+            <input
+              type="range"
+              min={1}
+              max={5000}
+              value={montantSlider}
+              onChange={(e) => setMontant(Math.min(Math.max(Number(e.target.value) || 0, 1), 5000))}
+              className="w-full accent-emerald-500"
             />
           </label>
 
           {/* Pays destinataire */}
-          <label className="space-y-2 text-sm font-medium">
+          <div className="space-y-2 text-sm font-medium">
             <span>{t.country}</span>
-            <select
-              value={devise}
-              onChange={(e) => setDevise(e.target.value as Devise)}
-              className="w-full rounded-2xl border border-white/30 bg-white/20 px-4 py-3 text-white outline-none ring-white transition focus:ring-2"
-            >
-              {Object.entries(labels).map(([value, label]) => (
-                <option key={value} value={value} className="text-dark">
-                  {label}
-                </option>
+            <div className="flex flex-wrap justify-center gap-2">
+              {PAYS.map((pays) => (
+                <button
+                  key={pays.code}
+                  type="button"
+                  onClick={() => setDevise(pays.code)}
+                  className={`flex items-center gap-2 rounded-full border-2 px-4 py-2 font-medium transition-all ${
+                    devise === pays.code
+                      ? 'scale-105 border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md'
+                      : 'border-gray-200 bg-white text-gray-600 hover:border-emerald-300'
+                  }`}
+                >
+                  <span className="text-xl">{pays.flag}</span>
+                  <span>{pays.label}</span>
+                </button>
               ))}
-            </select>
-          </label>
+            </div>
+            <p className="text-center text-xs text-emerald-100">
+              {PAYS_INFO[devise].flag} {PAYS_INFO[devise].nom} ({PAYS_INFO[devise].devise})
+            </p>
+          </div>
         </div>
 
         {/* Résumé meilleur deal */}
