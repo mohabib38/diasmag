@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "home": "Home",
+    "envoyer": "Send money",
+    "demarches": "Administrative guides",
+    "apprendre": "Learn",
+    "recettes": "Recipes",
+    "actualites": "News",
+    "voyager": "Travel",
+    "mariage": "Wedding",
+    "signin": "Sign in",
+    "signup": "Sign up"
+  },
+  "hero": {
+    "title": "Your all-in-one portal",
+    "subtitle": "for the Maghrebi diaspora",
+    "description": "Send money, handle paperwork, learn your heritage language, discover recipes, follow the news, travel and plan your wedding - all in one place.",
+    "cta_start": "Get started",
+    "cta_signup": "Sign up for free"
+  },
+  "sections": {
+    "envoyer": { "title": "Send money", "desc": "Compare Western Union, Wise, Remitly and more" },
+    "demarches": { "title": "Administrative guides", "desc": "Guides for visas, nationality, inheritance and more" },
+    "apprendre": { "title": "Learn", "desc": "Courses in Darija, Amazigh and Modern Standard Arabic" },
+    "recettes": { "title": "Recipes", "desc": "Maghrebi cuisine at your fingertips" },
+    "actualites": { "title": "News", "desc": "The latest from the Maghreb and the diaspora" },
+    "voyager": { "title": "Travel", "desc": "Compare flights between the Maghreb and Europe" },
+    "mariage": { "title": "Wedding", "desc": "Venues, vendors and planning support" }
+  }
+}
